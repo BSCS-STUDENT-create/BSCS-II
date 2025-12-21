@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Event Score Tabulation</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>Event Score Tabulation System</h1>
+
+<div class="form">
+  <input id="name" placeholder="Contestant Name">
+  <input id="s1" type="number" placeholder="Judge 1 Score">
+  <input id="s2" type="number" placeholder="Judge 2 Score">
+  <input id="s3" type="number" placeholder="Judge 3 Score">
+  <button onclick="addContestant()">Add</button>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th>Rank</th>
+      <th>Name</th>
+      <th>Total</th>
+      <th>Average</th>
+    </tr>
+  </thead>
+  <tbody id="tableBody"></tbody>
+</table>
+
+<p id="highest"></p>
+<p id="lowest"></p>
+
+<script src="script.js"></script>
+</body>
+</html>
