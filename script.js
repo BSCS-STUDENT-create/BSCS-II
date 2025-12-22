@@ -1,42 +1,31 @@
 let contestants = [];
-let judgeCount = 3; // Starts at 3 because of your HTML
+let judgeCount = 3;
 
-// Function to add a new input box for another judge
 function addJudge() {
   judgeCount++;
   const container = document.getElementById("judgesContainer");
-  
-  // Create the new input element
   const newInput = document.createElement("input");
   newInput.id = `s${judgeCount}`;
   newInput.type = "number";
   newInput.placeholder = `Judge ${judgeCount} Score`;
-  
-  // Add it to the screen
   container.appendChild(newInput);
 }
 
 function addContestant() {
-  const name = document.getElementById("name").value;
-  if (!name) {
-    alert("Please enter a contestant name");
-    return;
-  }
+  const nameInput = document.getElementById("name");
+  const name = nameInput.value;
+  if (!name) return alert("Enter a name!");
 
   let total = 0;
-  
-  // Loop through all judge inputs dynamically
   for (let i = 1; i <= judgeCount; i++) {
-    const score = Number(document.getElementById(`s${i}`).value);
-    total += score;
+    total += Number(document.getElementById(`s${i}`).value || 0);
   }
 
   const average = (total / judgeCount).toFixed(2);
-
   contestants.push({ name, total, average });
 
-  // Clear inputs for the next entry
-  document.getElementById("name").value = "";
+  // Clear inputs
+  nameInput.value = "";
   for (let i = 1; i <= judgeCount; i++) {
     document.getElementById(`s${i}`).value = "";
   }
@@ -45,27 +34,19 @@ function addContestant() {
 }
 
 function rankContestants() {
-  if (contestants.length === 0) return;
-
   contestants.sort((a, b) => b.total - a.total);
-
   const tbody = document.getElementById("tableBody");
   tbody.innerHTML = "";
 
   contestants.forEach((c, index) => {
-    tbody.innerHTML += `
-      <tr>
-        <td>${index + 1}</td>
-        <td>${c.name}</td>
-        <td>${c.total}</td>
-        <td>${c.average}</td>
-      </tr>
-    `;
+    tbody.innerHTML += `<tr>
+      <td>${index + 1}</td>
+      <td>${c.name}</td>
+      <td>${c.total}</td>
+      <td>${c.average}</td>
+    </tr>`;
   });
 
-  document.getElementById("highest").innerText =
-    "Highest Performer: " + contestants[0].name;
-
-  document.getElementById("lowest").innerText =
-    "Lowest Performer: " + contestants[contestants.length - 1].name;
+  document.getElementById("highest").innerText = "Highest: " + contestants[0].name;
+  document.getElementById("lowest").innerText = "Lowest: " + contestants[contestants.length - 1].name;
 }
