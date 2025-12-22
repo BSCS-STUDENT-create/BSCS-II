@@ -11,17 +11,13 @@
 
 <div class="form">
   <input id="name" placeholder="Contestant Name">
-  
-  <div id="judgesContainer">
+  <div id="judgesContainer" style="display: contents;">
     <input id="s1" type="number" placeholder="Judge 1 Score">
     <input id="s2" type="number" placeholder="Judge 2 Score">
     <input id="s3" type="number" placeholder="Judge 3 Score">
   </div>
-  
-  <div class="button-group">
-    <button onclick="addContestant()">Add Contestant</button>
-    <button id="addJudgeBtn" onclick="addJudge()">Add Judges</button>
-  </div>
+  <button onclick="addContestant()">Add</button>
+  <button id="addJudgeBtn" onclick="addJudge()">Add Judges</button>
 </div>
 
 <table>
