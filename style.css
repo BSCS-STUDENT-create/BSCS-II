@@ -21,7 +21,6 @@ body {
 h1 {
   margin: 20px 0 30px;
   font-size: 2.8rem;
-  letter-spacing: 2px;
   text-align: center;
   text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
 }
@@ -33,9 +32,26 @@ h1 {
   box-shadow: 0 10px 35px rgba(255, 215, 0, 0.35);
   margin-bottom: 30px;
   display: flex;
+  flex-direction: column; /* Stacks the name, scores, and buttons in 3 rows */
+  align-items: center;
+  gap: 15px;
+  width: auto; /* Width grows with content */
+  min-width: 600px; /* Keeps it in landscape */
+}
+
+#judgesContainer {
+  display: flex;
+  flex-direction: row; /* Forces judges to stay side-by-side */
   flex-wrap: wrap;
   justify-content: center;
   gap: 12px;
+}
+
+.button-group {
+  display: flex;
+  flex-direction: row; /* Forces buttons to stay side-by-side */
+  gap: 15px;
+  margin-top: 10px;
 }
 
 input {
@@ -44,10 +60,8 @@ input {
   color: #fff;
   padding: 12px;
   border-radius: 10px;
-  width: 180px;
-  font-size: 0.95rem;
+  width: 150px; /* Smaller width to fit more judges in one row */
   outline: none;
-  transition: all 0.3s ease;
 }
 
 button {
@@ -57,30 +71,27 @@ button {
   border-radius: 25px;
   cursor: pointer;
   font-weight: bold;
-  font-size: 1rem;
   color: #000;
-  transition: all 0.3s ease;
+  transition: transform 0.2s;
 }
 
 button:hover {
-  transform: scale(1.08);
-  box-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+  transform: scale(1.05);
 }
 
-/* Keeps the Add Judges button consistent with your original style */
 #addJudgeBtn {
-  margin-left: 5px;
+  background: transparent;
+  color: #ffd700;
+  border: 1px solid #ffd700;
 }
 
 table {
   width: 90%;
   max-width: 1000px;
-  margin-bottom: 30px;
   border-collapse: collapse;
   background: rgba(0, 0, 0, 0.8);
   border-radius: 15px;
   overflow: hidden;
-  table-layout: fixed;
 }
 
 th, td {
