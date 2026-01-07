@@ -1,86 +1,92 @@
-* { box-sizing: border-box; }
+let contestants = [];
 
-body {
-  margin: 0;
-  font-family: "Segoe UI", Arial, sans-serif;
-  color: #fff;
-  min-height: 100vh;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.65), rgba(0,0,0,0.9)), 
-              url("https://images.unsplash.com/photo-1519750783826-e2420f4d687f");
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
+function addContestant() {
+  const nameEl = document.getElementById("name");
+  const s1 = Number(document.getElementById("s1").value);
+  const s2 = Number(document.getElementById("s2").value);
+  const s3 = Number(document.getElementById("s3").value);
+  const name = nameEl.value.trim();
+
+  if (name === "" || isNaN(s1) || isNaN(s2) || isNaN(s3)) {
+    alert("Palihog kompletoha ang data.");
+    return;
+  }
+
+  // Hatagan og ID para dili mawala ang identity bisan mag-reorder ang rank
+  const contestant = {
+    id: Date.now(),
+    name,
+    score1: s1,
+    score2: s2,
+    score3: s3,
+    total: s1 + s2 + s3,
+    average: ((s1 + s2 + s3) / 3).toFixed(2)
+  };
+
+  contestants.push(contestant);
+  renderTable();
+
+  // Clear fields human ma-add
+  nameEl.value = "";
+  document.getElementById("s1").value = "";
+  document.getElementById("s2").value = "";
+  document.getElementById("s3").value = "";
+  nameEl.focus();
 }
 
-h1 {
-  margin: 20px 0 30px;
-  font-size: 2.5rem;
-  text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+function renderTable() {
+  // I-sort permi base sa total score (Highest to Lowest)
+  contestants.sort((a, b) => b.total - a.total);
+
+  const tbody = document.getElementById("tableBody");
+  tbody.innerHTML = "";
+
+  contestants.forEach((c, index) => {
+    tbody.innerHTML += `
+      <tr>
+        <td>${index + 1}</td>
+        <td>${c.name}</td>
+        <td>${c.total}</td>
+        <td>${c.average}</td>
+        <td>
+          <button class="edit-btn" onclick="editScores(${c.id})">Edit</button>
+        </td>
+      </tr>
+    `;
+  });
+
+  updateHighlights();
 }
 
-.form {
-  background: rgba(0, 0, 0, 0.75);
-  padding: 25px 30px;
-  border-radius: 18px;
-  box-shadow: 0 10px 35px rgba(255, 215, 0, 0.35);
-  margin-bottom: 30px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 12px;
+function editScores(id) {
+  // Pangitaon ang contestant gamit ang ID
+  const person = contestants.find(c => c.id === id);
+
+  if (person) {
+    // Mo-gawas ang prompt box. Ipakita ang karaan nga score. 
+    // Kon sakto na, i-click lang ang OK. Kon sayop, usba ang number.
+    const newS1 = parseFloat(prompt(`Judge 1 Score for ${person.name}:`, person.score1));
+    const newS2 = parseFloat(prompt(`Judge 2 Score for ${person.name}:`, person.score2));
+    const newS3 = parseFloat(prompt(`Judge 3 Score for ${person.name}:`, person.score3));
+
+    // Siguradoon nga number ang gi-input
+    if (!isNaN(newS1) && !isNaN(newS2) && !isNaN(newS3)) {
+      person.score1 = newS1;
+      person.score2 = newS2;
+      person.score3 = newS3;
+      person.total = newS1 + newS2 + newS3;
+      person.average = (person.total / 3).toFixed(2);
+      
+      renderTable(); // I-refresh ang table para makita ang kausaban
+    } else {
+      alert("Naay sayop sa pag-input. Wala nausab ang scores.");
+    }
+  }
 }
 
-input {
-  background: #111;
-  border: 1px solid #ffd700;
-  color: #fff;
-  padding: 12px;
-  border-radius: 10px;
-  width: 150px;
-}
-
-button {
-  background: linear-gradient(45deg, #ffd700, #ffae00);
-  border: none;
-  padding: 12px 26px;
-  border-radius: 25px;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.edit-btn {
-  background: transparent;
-  color: #ffd700;
-  border: 1px solid #ffd700;
-  padding: 5px 15px;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.edit-btn:hover {
-  background: #ffd700;
-  color: #000;
-}
-
-table {
-  width: 90%;
-  max-width: 1000px;
-  border-collapse: collapse;
-  background: rgba(0, 0, 0, 0.8);
-  border-radius: 15px;
-  overflow: hidden;
-}
-
-th, td { padding: 14px; text-align: center; }
-th { background: linear-gradient(45deg, #ffd700, #ffae00); color: #000; }
-
-#highest, #lowest {
-  font-size: 1.3rem;
-  margin: 10px 0;
-  text-shadow: 0 0 12px gold;
-  font-weight: bold;
+function updateHighlights() {
+  if (contestants.length > 0) {
+    document.getElementById("highest").innerText = "🏆 Leading: " + contestants[0].name + " (Total: " + contestants[0].total + ")";
+    document.getElementById("lowest").innerText = "Trailing: " + contestants[contestants.length - 1].name;
+  }
 }
