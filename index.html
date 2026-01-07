@@ -2,35 +2,58 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Event Score Tabulation</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h1>Event Score Tabulation System</h1>
-
-<div class="form">
-  <input id="name" placeholder="Contestant Name">
-  <input id="s1" type="number" placeholder="Judge 1 Score">
-  <input id="s2" type="number" placeholder="Judge 2 Score">
-  <input id="s3" type="number" placeholder="Judge 3 Score">
-  <button onclick="addContestant()">Add</button>
+<div id="pinOverlay">
+  <div class="pin-box">
+    <h2>System Locked</h2>
+    <p>Please enter PIN to access Tabulation</p>
+    <input type="password" id="pinInput" placeholder="Enter PIN">
+    <button onclick="checkPin()">Unlock System</button>
+    <p id="pinError" style="color: #ff4d4d; margin-top: 15px; display: none; font-weight: bold;">❌ Incorrect PIN!</p>
+  </div>
 </div>
 
-<table>
-  <thead>
-    <tr>
-      <th>Rank</th>
-      <th>Name</th>
-      <th>Total</th>
-      <th>Average</th>
-      <th>Actions</th> </tr>
-  </thead>
-  <tbody id="tableBody"></tbody>
-</table>
+<div id="mainContent" style="display: none; width: 100%; flex-direction: column; align-items: center;">
+    <h1>Event Score Tabulation System</h1>
 
-<p id="highest"></p>
-<p id="lowest"></p>
+    <div class="form">
+      <input id="name" placeholder="Enter Full Contestant Name" class="full-width-input">
+      
+      <div id="judgesContainer">
+        <input class="judge-score" type="number" placeholder="Judge 1">
+        <input class="judge-score" type="number" placeholder="Judge 2">
+        <input class="judge-score" type="number" placeholder="Judge 3">
+      </div>
+
+      <div class="button-group">
+        <button type="button" class="secondary-btn" onclick="addJudgeField()">+ Add Judge</button>
+        <button onclick="addContestant()">Add Contestant</button>
+      </div>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Name</th>
+          <th>Total Score</th>
+          <th>Average</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+
+    <div class="summary">
+      <p id="highest"></p>
+      <p id="lowest"></p>
+    </div>
+</div>
 
 <script src="script.js"></script>
 </body>
