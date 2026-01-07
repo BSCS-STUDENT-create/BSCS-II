@@ -10,7 +10,7 @@ body {
   font-family: "Segoe UI", Arial, sans-serif;
   color: #fff;
   min-height: 100vh;
-
+  /* Dark premium background */
   background:
     linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.9)),
     url("https://images.unsplash.com/photo-1519750783826-e2420f4d687f");
@@ -21,163 +21,59 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
+  padding: 10px 40px; /* Mas gamay sa taas, mas dako sa kilid para landscape feel */
 }
 
 /* =====================
    Title
 ===================== */
 h1 {
-  margin: 20px 0 30px;
-  font-size: 2.8rem;
+  margin: 10px 0 20px;
+  font-size: 2.5rem;
   letter-spacing: 2px;
   text-align: center;
   text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
 }
 
 /* =====================
-   Form Card (Gihimong Horizontal)
+   Form Card (Landscape / Horizontal)
 ===================== */
 .form {
-  background: rgba(0, 0, 0, 0.8);
-  padding: 30px;
-  border-radius: 20px;
-  box-shadow: 0 10px 35px rgba(255, 215, 0, 0.25);
-  margin-bottom: 30px;
-  width: 95%;
-  max-width: 1100px;
-
-  /* Kini ang code para magtapad sila */
+  background: rgba(20, 20, 20, 0.9);
+  padding: 20px 30px;
+  border-radius: 15px;
+  box-shadow: 0 8px 30px rgba(255, 215, 0, 0.2);
+  margin-bottom: 25px;
+  
+  /* Kini ang sekreto sa landscape form */
+  width: 100%;
+  max-width: 1200px; /* Mas gipalapdan para sa landscape */
   display: flex;
   flex-direction: row; 
-  flex-wrap: wrap;     /* Mo-wrap paubos kon dili na igo */
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  gap: 15px;           /* Distansya sa matag box */
+  gap: 15px;
 }
 
-/* =====================
-   Inputs
-===================== */
 input {
   background: #111;
-  border: 2px solid #ffd700;
+  border: 1px solid #ffd700;
   color: #fff;
-  padding: 12px 15px;
-  border-radius: 12px;
-  font-size: 1rem;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 0.95rem;
   outline: none;
   transition: all 0.3s ease;
-  
-  /* Flex settings para flexible ang width */
-  flex: 1 1 180px; 
-  max-width: 250px;
-}
-
-input::placeholder {
-  color: #888;
+  flex: 1; /* Ang mga inputs mokuha sa extra space parehas ang gidak-on */
 }
 
 input:focus {
   border-color: #ffae00;
-  box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-  transform: translateY(-2px);
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
 }
 
-/* =====================
-   Button
-===================== */
 button {
   background: linear-gradient(45deg, #ffd700, #ffae00);
   border: none;
-  padding: 14px 30px;
-  border-radius: 30px;
-  cursor: pointer;
-  font-weight: bold;
-  font-size: 1rem;
-  color: #000;
-  transition: all 0.3s ease;
-  flex: 0 0 auto; /* Dili mo-expand ang button */
-}
-
-button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
-}
-
-/* Edit Button sa Table */
-.edit-btn {
-  background: transparent;
-  color: #ffd700;
-  border: 1px solid #ffd700;
-  padding: 6px 15px;
-  font-size: 0.85rem;
-  border-radius: 8px;
-}
-
-.edit-btn:hover {
-  background: #ffd700;
-  color: #000;
-  transform: none;
-}
-
-/* =====================
-   Table
-===================== */
-table {
-  width: 95%;
-  max-width: 1000px;
-  margin-bottom: 30px;
-  border-collapse: collapse;
-  background: rgba(0, 0, 0, 0.85);
-  border-radius: 15px;
-  overflow: hidden;
-}
-
-th, td {
-  padding: 15px;
-  text-align: center;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
-}
-
-th {
-  background: linear-gradient(45deg, #ffd700, #ffae00);
-  color: #000;
-  font-weight: bold;
-  text-transform: uppercase;
-  font-size: 0.9rem;
-}
-
-tr:nth-child(even) td {
-  background: rgba(255, 255, 255, 0.03);
-}
-
-/* =====================
-   Highlights
-===================== */
-#highest, #lowest {
-  font-size: 1.4rem;
-  margin: 10px 0;
-  text-shadow: 0 0 12px gold;
-  font-weight: bold;
-  text-align: center;
-}
-
-/* =====================
-   Responsive (Para sa Mobile)
-===================== */
-@media (max-width: 768px) {
-  .form {
-    flex-direction: column; /* Paubos na sila kon gamay ang screen */
-    width: 100%;
-  }
-
-  input {
-    max-width: 100%;
-    width: 100%;
-  }
-
-  button {
-    width: 100%;
-  }
-}
+  padding: 12px 30px;
+  border-
