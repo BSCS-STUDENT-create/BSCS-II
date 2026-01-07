@@ -1,14 +1,12 @@
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
   font-family: "Segoe UI", Arial, sans-serif;
   color: #fff;
   min-height: 100vh;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.65), rgba(0,0,0,0.9)),
-    url("https://images.unsplash.com/photo-1519750783826-e2420f4d687f");
+  background: linear-gradient(to bottom, rgba(0,0,0,0.65), rgba(0,0,0,0.9)), 
+              url("https://images.unsplash.com/photo-1519750783826-e2420f4d687f");
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -20,8 +18,7 @@ body {
 
 h1 {
   margin: 20px 0 30px;
-  font-size: 2.8rem;
-  text-align: center;
+  font-size: 2.5rem;
   text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
 }
 
@@ -32,26 +29,9 @@ h1 {
   box-shadow: 0 10px 35px rgba(255, 215, 0, 0.35);
   margin-bottom: 30px;
   display: flex;
-  flex-direction: column; /* Stacks the name, scores, and buttons in 3 rows */
-  align-items: center;
-  gap: 15px;
-  width: auto; /* Width grows with content */
-  min-width: 600px; /* Keeps it in landscape */
-}
-
-#judgesContainer {
-  display: flex;
-  flex-direction: row; /* Forces judges to stay side-by-side */
   flex-wrap: wrap;
   justify-content: center;
   gap: 12px;
-}
-
-.button-group {
-  display: flex;
-  flex-direction: row; /* Forces buttons to stay side-by-side */
-  gap: 15px;
-  margin-top: 10px;
 }
 
 input {
@@ -60,8 +40,7 @@ input {
   color: #fff;
   padding: 12px;
   border-radius: 10px;
-  width: 150px; /* Smaller width to fit more judges in one row */
-  outline: none;
+  width: 150px;
 }
 
 button {
@@ -71,18 +50,20 @@ button {
   border-radius: 25px;
   cursor: pointer;
   font-weight: bold;
-  color: #000;
-  transition: transform 0.2s;
 }
 
-button:hover {
-  transform: scale(1.05);
-}
-
-#addJudgeBtn {
+.edit-btn {
   background: transparent;
   color: #ffd700;
   border: 1px solid #ffd700;
+  padding: 5px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.edit-btn:hover {
+  background: #ffd700;
+  color: #000;
 }
 
 table {
@@ -94,19 +75,12 @@ table {
   overflow: hidden;
 }
 
-th, td {
-  padding: 14px;
-  text-align: center;
-}
-
-th {
-  background: linear-gradient(45deg, #ffd700, #ffae00);
-  color: #000;
-}
+th, td { padding: 14px; text-align: center; }
+th { background: linear-gradient(45deg, #ffd700, #ffae00); color: #000; }
 
 #highest, #lowest {
   font-size: 1.3rem;
-  margin: 8px 0;
+  margin: 10px 0;
   text-shadow: 0 0 12px gold;
   font-weight: bold;
 }
