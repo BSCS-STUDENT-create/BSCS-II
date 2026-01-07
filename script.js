@@ -1,79 +1,137 @@
+// Security Configuration
+const SECRET_PIN = "123456789";
+
+function checkPin() {
+    const userInput = document.getElementById("pinInput").value;
+    const overlay = document.getElementById("pinOverlay");
+    const main = document.getElementById("mainContent");
+    const errorMsg = document.getElementById("pinError");
+
+    if (userInput === SECRET_PIN) {
+        overlay.style.display = "none";
+        main.style.display = "flex";
+    } else {
+        errorMsg.style.display = "block";
+        document.getElementById("pinInput").value = "";
+        // Autofocus back to input
+        document.getElementById("pinInput").focus();
+    }
+}
+
+// Tabulation Logic
 let contestants = [];
+let judgeCount = 3;
+
+function addJudgeField() {
+    judgeCount++;
+    const container = document.getElementById("judgesContainer");
+    const newInput = document.createElement("input");
+    newInput.type = "number";
+    newInput.className = "judge-score";
+    newInput.placeholder = `Judge ${judgeCount}`;
+    container.appendChild(newInput);
+}
 
 function addContestant() {
-  const nameEl = document.getElementById("name");
-  const s1 = Number(document.getElementById("s1").value);
-  const s2 = Number(document.getElementById("s2").value);
-  const s3 = Number(document.getElementById("s3").value);
-  const name = nameEl.value.trim();
+    const nameEl = document.getElementById("name");
+    const name = nameEl.value.trim();
+    const scoreInputs = document.querySelectorAll(".judge-score");
+    
+    let scores = [];
+    let total = 0;
+    let isInvalid = false;
 
-  if (name === "" || isNaN(s1) || isNaN(s2) || isNaN(s3)) {
-    alert("Palihog kompletoha ang data.");
-    return;
-  }
+    scoreInputs.forEach(input => {
+        const val = parseFloat(input.value);
+        if (input.value === "" || isNaN(val)) isInvalid = true;
+        scores.push(val);
+        total += val;
+    });
 
-  const contestant = {
-    id: Date.now(),
-    name,
-    score1: s1,
-    score2: s2,
-    score3: s3,
-    total: s1 + s2 + s3,
-    average: ((s1 + s2 + s3) / 3).toFixed(2)
-  };
+    if (name === "" || isInvalid) {
+        alert("Palihog kompletoha ang Ngalan ug tanang Scores!");
+        return;
+    }
 
-  contestants.push(contestant);
-  renderTable();
+    const contestant = {
+        id: Date.now(),
+        name: name,
+        scores: scores,
+        total: total,
+        average: (total / scores.length).toFixed(2)
+    };
 
-  nameEl.value = "";
-  document.getElementById("s1").value = "";
-  document.getElementById("s2").value = "";
-  document.getElementById("s3").value = "";
-  nameEl.focus();
+    contestants.push(contestant);
+    renderTable();
+
+    // Reset fields
+    nameEl.value = "";
+    scoreInputs.forEach(input => input.value = "");
+    nameEl.focus();
 }
 
 function renderTable() {
-  contestants.sort((a, b) => b.total - a.total);
-  const tbody = document.getElementById("tableBody");
-  tbody.innerHTML = "";
-
-  contestants.forEach((c, index) => {
-    tbody.innerHTML += `
-      <tr>
-        <td>${index + 1}</td>
-        <td>${c.name}</td>
-        <td>${c.total}</td>
-        <td>${c.average}</td>
-        <td>
-          <button class="edit-btn" onclick="editScores(${c.id})">Edit</button>
-        </td>
-      </tr>
-    `;
-  });
-  updateHighlights();
+    // Sort highest to lowest score
+    contestants.sort((a, b) => b.total - a.total);
+    
+    const tbody = document.getElementById("tableBody");
+    tbody.innerHTML = contestants.map((c, index) => `
+        <tr>
+            <td style="font-weight: bold; color: #ffd700;">${index + 1}</td>
+            <td style="text-align: left;">${c.name}</td>
+            <td>${c.total.toFixed(2)}</td>
+            <td>${c.average}</td>
+            <td>
+                <button class="edit-btn" onclick="editScores(${c.id})">Edit Scores</button>
+            </td>
+        </tr>
+    `).join("");
+    
+    updateHighlights();
 }
 
 function editScores(id) {
-  const person = contestants.find(c => c.id === id);
-  if (person) {
-    const newS1 = parseFloat(prompt(`Judge 1 Score:`, person.score1));
-    const newS2 = parseFloat(prompt(`Judge 2 Score:`, person.score2));
-    const newS3 = parseFloat(prompt(`Judge 3 Score:`, person.score3));
+    const person = contestants.find(c => c.id === id);
+    if (person) {
+        let newScores = [];
+        let newTotal = 0;
 
-    if (!isNaN(newS1) && !isNaN(newS2) && !isNaN(newS3)) {
-      person.score1 = newS1;
-      person.score2 = newS2;
-      person.score3 = newS3;
-      person.total = newS1 + newS2 + newS3;
-      person.average = (person.total / 3).toFixed(2);
-      renderTable();
+        for (let i = 0; i < person.scores.length; i++) {
+            let input = prompt(`Updating ${person.name}\nScore for Judge ${i+1}:`, person.scores[i]);
+            
+            if (input === null) return; // Cancel edit
+
+            let val = parseFloat(input);
+            if (!isNaN(val)) {
+                newScores.push(val);
+                newTotal += val;
+            } else {
+                alert("Invalid input! Please enter a number.");
+                return;
+            }
+        }
+
+        person.scores = newScores;
+        person.total = newTotal;
+        person.average = (newTotal / newScores.length).toFixed(2);
+        renderTable();
     }
-  }
 }
 
 function updateHighlights() {
-  if (contestants.length > 0) {
-    document.getElementById("highest").innerText = "🏆 Leading: " + contestants[0].name;
-    document.getElementById("lowest").innerText = "Trailing: " + contestants[contestants.length - 1].name;
-  }
+    const highEl = document.getElementById("highest");
+    const lowEl = document.getElementById("lowest");
+
+    if (contestants.length > 0) {
+        highEl.innerHTML = `🏆 Leading: ${contestants[0].name} (Total: ${contestants[0].total.toFixed(2)})`;
+        lowEl.innerText = `Trailing: ${contestants[contestants.length - 1].name}`;
+    } else {
+        highEl.innerHTML = "";
+        lowEl.innerText = "";
+    }
 }
+
+// Allow "Enter" key for PIN access
+document.getElementById("pinInput")?.addEventListener("keypress", function(e) {
+    if (e.key === "Enter") checkPin();
+});
