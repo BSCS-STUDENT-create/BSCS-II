@@ -124,7 +124,7 @@ function updateHighlights() {
 
     if (contestants.length > 0) {
         highEl.innerHTML = `🏆 Leading: ${contestants[0].name} (Total: ${contestants[0].total.toFixed(2)})`;
-        lowEl.innerText = `Trailing: ${contestants[contestants.length - 1].name}`;
+        lowEl.innerText = `Lowest: ${contestants[contestants.length - 1].name}`;
     } else {
         highEl.innerHTML = "";
         lowEl.innerText = "";
